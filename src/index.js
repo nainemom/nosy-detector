@@ -11,8 +11,11 @@ async function main() {
   let facesLength = 0
   let tryTimes = 0
 
+  await webcam.start()
+
   const loop = async () => {
     const pic = await webcam.getPicture()
+    // console.log(pic)
     const faces = await faceDetector.detect(pic)
     if (faces !== facesLength && tryTimes < 2) {
       tryTimes++
@@ -26,9 +29,15 @@ async function main() {
         console.log(stdout.trim())
       })
     }
-    process.nextTick(loop)
+    setTimeout(() => {
+      process.nextTick(loop)
+    }, 1000)
   }
   loop()
 }
 
 main()
+
+process.on('close', () => {
+  webcam.close()
+})
