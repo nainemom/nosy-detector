@@ -5,7 +5,7 @@ import faceDetector from './lib/face-detector.js'
 import { exec } from 'child_process'
 
 const maxPersons = argv.is('--max') ? parseInt(argv.get('--max')) : 1
-const command = argv.get('--command') || 'echo "oo oo"'
+const command = argv.get('--command') || 'echo "p"'
 
 async function main() {
   let facesLength = 0
@@ -14,20 +14,19 @@ async function main() {
   const loop = async () => {
     const pic = await webcam.getPicture()
     const faces = await faceDetector.detect(pic)
-    if (faces !== facesLength && tryTimes < 5) {
+    if (faces !== facesLength && tryTimes < 2) {
       tryTimes++
     } else {
       facesLength = faces
       tryTimes = 0
     }
     if (facesLength > maxPersons) {
+      // console.log('ok done')
       exec(command, (err, stdout, strerr) => {
-        console.log(stdout)
+        console.log(stdout.trim())
       })
     }
-    setTimeout(() => {
-      setImmediate(loop)
-    }, 300)
+    process.nextTick(loop)
   }
   loop()
 }
