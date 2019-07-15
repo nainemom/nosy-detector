@@ -1,5 +1,3 @@
-import { exec, spawn } from 'child_process'
-import path from 'path'
 import ffmpeg from 'fluent-ffmpeg'
 
 export default {
@@ -7,7 +5,7 @@ export default {
   _dataListerener: (() => {}),
   _busy: false,
   start(device) {
-    this.process = ffmpeg(device).inputOptions('-an').outputOption('-f image2pipe')
+    this.process = ffmpeg(device).inputOptions('-an').outputOption('-f image2pipe').videoFilters('eq=saturation=3:gamma=10:contrast=2:brightness=0')
     const ffstream = this.process.pipe();
     ffstream.on('data', async chunk => {
       if (this._busy || !chunk) {
