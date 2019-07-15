@@ -11,6 +11,7 @@ const moreCommand = argv.get('--more-command') || 'pwd'
 const normalCommand = argv.get('--normal-command') || 'pwd'
 const device = argv.get('--device') || '/dev/video0'
 const outputdir = argv.get('--output-dir') || './'
+const debugMode = argv.is('--debug') || false
 const absoluteOutputDir = path.join(process.cwd(), outputdir)
 
 function main() {
@@ -26,17 +27,20 @@ function main() {
   webcam.start(device)
 
   webcam.onData(async imageBuffer => {
-    const faces = await faceDetector.detect(imageBuffer)
+    const { im, faces } = await faceDetector.detect(imageBuffer)
+    if (debugMode) {
+      console.log(faces, _faces, tryOver)
+    }
     if (faces !== _faces) {
       // something new happened
       if (tryOver.length === faces) {
         // this is not first time
         tryOver.times++
-        if (tryOver.times > 10) {
+        if (tryOver.times > 5) {
           // set trusted total faces
           _faces = faces
           console.log(Date(), `${faces} Face(s) Detected!`)
-          fs.writeFileSync(path.join(outputdir, `${Date.now()}-${faces}.jpg`), imageBuffer)
+          im.save(path.join(outputdir, `${Date.now()}-${faces}.jpg`))
           if (faces > availablePersons) {
             exec(moreCommand)
           } else {
