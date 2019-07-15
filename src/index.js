@@ -2,15 +2,19 @@
 import argv from './lib/argv.js'
 import webcam from './lib/webcam.js'
 import faceDetector from './lib/face-detector.js'
-import { exec, execSync } from 'child_process'
+import fs from 'fs'
+import path from 'path'
+import { exec } from 'child_process'
 
 const availablePersons = argv.is('--max') ? parseInt(argv.get('--max')) : 1
 const moreCommand = argv.get('--more-command') || 'pwd'
 const normalCommand = argv.get('--normal-command') || 'pwd'
 const device = argv.get('--device') || '/dev/video0'
+const outputdir = argv.get('--output-dir') || './'
+const absoluteOutputDir = path.join(process.cwd(), outputdir)
 
 function main() {
-  console.log('Nosy-Detector Started...')
+  console.log(Date(), 'Nosy-Detector Started...')
 
   let _faces = undefined
   let tryOver = {
@@ -31,7 +35,8 @@ function main() {
         if (tryOver.times > 10) {
           // set trusted total faces
           _faces = faces
-          console.log(`${faces} Face(s) Detected!`)
+          console.log(Date(), `${faces} Face(s) Detected!`)
+          fs.writeFileSync(path.join(outputdir, `${Date.now()}-${faces}.jpg`), )
           if (faces > availablePersons) {
             exec(moreCommand)
           } else {
@@ -48,11 +53,4 @@ function main() {
 }
 
 main()
-
-process.on('exit', () => {
-  webcam.close()
-  console.log('Good Bye...')
-})
-
-
 process.stdin.resume()
