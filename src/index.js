@@ -9,40 +9,47 @@ const moreCommand = argv.get('--more-command') || 'pwd'
 const normalCommand = argv.get('--normal-command') || 'pwd'
 const device = argv.get('--device') || '/dev/video0'
 
-async function main() {
-  let _faces = 0
-  let tryTimes = 0
+function main() {
+  console.log('Nosy-Detector Started...')
 
-  await webcam.start(device)
-
-  const loop = async () => {
-    const pic = webcam.getPicture()
-    const faces = await faceDetector.detect(pic)
-    if (faces !== _faces && tryTimes < 4) {
-      tryTimes++
-    } else {
-      if (_faces !== faces) {
-        console.log(`${faces} face(s) looking at camera!`)
-        if (faces > availablePersons) {
-          exec(moreCommand)
-        } else {
-          exec(normalCommand)
-        }
-      }
-      _faces = faces
-      tryTimes = 0
-    }
-
-    process.nextTick(() => {
-      setImmediate(loop)
-    })
+  let _faces = undefined
+  let tryOver = {
+    length: undefined,
+    times: 0
   }
-  loop()
+
+  faceDetector.init()
+  webcam.start(device)
+
+  webcam.onData(async imageBuffer => {
+    const faces = await faceDetector.detect(imageBuffer)
+    if (faces !== _faces) {
+      // something new happened
+      if (tryOver.length === faces) {
+        // this is not first time
+        tryOver.times++
+        if (tryOver.times > 8) {
+          // set trusted total faces
+          _faces = faces
+          console.log(`${faces} Face(s) Detected!`)
+          if (faces > availablePersons) {
+            exec(moreCommand)
+          } else {
+            exec(normalCommand)
+          }
+        }
+      } else {
+        // reset try times
+        tryOver.length = faces
+        tryOver.times = 0
+      }
+    }
+  })
 }
-console.log('Initializing...')
+
 main()
 
-process.on('close', () => {
+process.on('exit', () => {
   webcam.close()
   console.log('Good Bye...')
 })
