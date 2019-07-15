@@ -5,7 +5,7 @@ import path from 'path'
 export default {
   FACE_CASCADE: undefined,
   init: function () {
-    this.FACE_CASCADE = path.join(__dirname, '../../cascade/haarcascade_frontalface_alt_tree.xml')
+    this.FACE_CASCADE = path.join(__dirname, '../../cascade/haarcascade_frontalface_alt.xml')
   },
   detect: function (media) {
     return new Promise((resolve, reject) => {
