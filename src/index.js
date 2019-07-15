@@ -36,7 +36,7 @@ function main() {
           // set trusted total faces
           _faces = faces
           console.log(Date(), `${faces} Face(s) Detected!`)
-          fs.writeFileSync(path.join(outputdir, `${Date.now()}-${faces}.jpg`), )
+          fs.writeFileSync(path.join(outputdir, `${Date.now()}-${faces}.jpg`), imageBuffer)
           if (faces > availablePersons) {
             exec(moreCommand)
           } else {
