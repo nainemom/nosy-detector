@@ -1,21 +1,21 @@
-## Nosy Detector
+# Nosy Detector
 A CLI tool using `opencv` and `ffmpeg` to detect number of faces looking at monitor.
-For example you can open full-screen f*ckoff picture when someone else looking at your monitor on behind you. :D
+For example you can open full-screen f*ckoff picture just when someone else looking at your monitor behind of you. :D
 
 
-## Dependencies
+### Dependencies
 You have to install `nodejs` >= 8, `opencv` >= 3, and `ffmpeg` natively on your machine. To install `opencv` and `ffmpeg` in you Ubuntu OS you can easily exec:
 ```terminal
 apt install libopencv-dev python-opencv ffmpeg
 ```
 
-## Installation
+### Installation
 ```terminal
 npm install nosy-detector -g
 ```
 
 
-## Usage
+### Usage
 ```terminal
 nosy-detector [options]
 ```
@@ -33,6 +33,6 @@ nosy-detector [options]
 
 ### Example
 ```terminal
-nosy-detector -mf 1 -o ./saved_pics" -c "eog fuckoff.png"
+nosy-detector -mf 1 -o ./saved_pics" -c "eog fckoff.png"
 ```
-This command show `fuckoff` picture just when someone looking at your monitor behind you and save her face to `./saved_pics` directory.
+This command show `f*ckoff.png` picture just when someone looking at your monitor behind you and save her face to `./saved_pics` directory.
