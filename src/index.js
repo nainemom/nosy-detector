@@ -35,7 +35,7 @@ function main() {
       if (tryOver.length === faces) {
         // this is not first time
         tryOver.times++
-        if (tryOver.times > 5) {
+        if (tryOver.times > 2) {
           // set trusted total faces
           _faces = faces
           console.log(Date(), `${faces} Face(s) Detected!`)
