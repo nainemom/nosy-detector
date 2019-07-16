@@ -42,7 +42,7 @@ function main() {
           im.save(path.join(absoluteOutputDir, `${Date.now()}-${faces}.jpg`))
           if (faces > availablePersons) {
             runningCmd = cmd.get(command)
-          } else {
+          } else if (runningCmd) {
             cmd.get(`kill ${runningCmd.pid + 1}`)
           }
         }
@@ -61,7 +61,7 @@ if (argv.is('--help') || argv.is('-h')) {
   console.log('--max-faces -mf     ', 'Maximum faces available behind system (default 1)')
   console.log('--command -c        ', 'User command that runs when faces more than --max-faces (default "pwd")')
   console.log('--device -d         ', 'Camera device address (default /dev/video0)')
-  console.log('--output-dir -o     ', 'Directory to save photos of face changes (default ./)')
+  console.log('--output-dir -o     ', 'Directory to save photos of face changes. (default ./)')
   console.log('--debug -t          ', 'Using for debug')
   console.log('--help -h           ', 'Show man page')
   console.log('')
