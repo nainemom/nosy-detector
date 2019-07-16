@@ -13,9 +13,7 @@ export default {
       }
       this._busy = true
       await this._dataListerener(chunk)
-      setImmediate(() => {
-        this._busy = false
-      })
+      this._busy = false
     })
   },
   onData(listener) {
