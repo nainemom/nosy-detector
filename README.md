@@ -22,10 +22,10 @@ nosy-detector [options]
 
 ### Options
 
-| Option Name | Description | Default Value |
+| Option | Description | Default |
 |-|-|-|
-| --max-faces -mf | Maximum faces available behind system | pwd |
-| --command -c | User command that runs when faces more than --max-faces | 1 |
+| --max-faces -mf | Maximum faces available behind system | 1 |
+| --command -c | User command that runs when faces more than --max-faces | pwd |
 | --device -d | Camera device address | /dev/video0 |
 | --output-dir -o | Directory to save photos of face changes. If you won't save detected pictures, pass null. | ./ |
 | --debug -t | Using for debug | |
