@@ -5,7 +5,7 @@ export default {
   _dataListerener: (() => {}),
   _busy: false,
   start(device) {
-    this.process = ffmpeg(device).inputOptions('-an').outputOption('-f image2pipe').videoFilters('eq=saturation=3:gamma=10:contrast=2:brightness=0')
+    this.process = ffmpeg(device).inputOptions('-an').outputOption('-f image2pipe').videoFilters('eq=saturation=0.9:gamma=3:contrast=6:brightness=0.9')
     const ffstream = this.process.pipe();
     ffstream.on('data', async chunk => {
       if (this._busy || !chunk) {
