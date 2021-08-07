@@ -32,6 +32,6 @@ nosy-detector [options]
 
 ### Example
 ```terminal
-nosy-detector --max-faces 1 -o ./saved_pics" -c "eog get-lost.png"
+nosy-detector -mf 1 -o ./saved_pics" -c "eog get-lost.png"
 ```
-This command show `f*ckoff.png` picture just when someone looking at your monitor behind you and save her face to `./saved_pics` directory.
+This command shows `get-lost.png` picture just when someone looking at your monitor behind you and save his/her face to `./saved_pics` directory.
